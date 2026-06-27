@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Register - CropAI{% endblock %}
+
+{% block content %}
+<div style="padding: 4rem 5%; max-width: 500px; margin: 0 auto; min-height: 70vh; display: flex; flex-direction: column; justify-content: center;">
+    <div class="glass-panel" style="padding: 3rem; text-align: center;">
+        <i class="ph-duotone ph-user-plus" style="font-size: 4rem; color: var(--secondary); margin-bottom: 1rem;"></i>
+        <h2 style="margin-bottom: 0.5rem; color: var(--text-main); font-size: 2rem;">Create Account</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Register to save your farm analysis and history.</p>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9rem; text-align: left;
+                        {% if category == 'danger' %}background: rgba(255, 71, 87, 0.1); color: var(--danger); border-left: 3px solid var(--danger);{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/register" method="post" style="display: flex; flex-direction: column; gap: 1.2rem; text-align: left;">
+            <div>
+                <label style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem; display: block;">Full Name / Farm Name</label>
+                <input type="text" name="username" required style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: 'Inter', sans-serif;" placeholder="John Doe">
+            </div>
+            <div>
+                <label style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem; display: block;">Email Address</label>
+                <input type="email" name="email" required style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: 'Inter', sans-serif;" placeholder="farmer@example.com">
+            </div>
+            <div>
+                <label style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem; display: block;">Password</label>
+                <input type="password" name="password" required style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: 'Inter', sans-serif;" placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-secondary" style="width: 100%; margin-top: 1rem; padding: 1rem;">Register Now</button>
+        </form>
+        
+        <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+            Already have an account? <a href="/login" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

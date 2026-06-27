@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CropAI - Intelligent Agriculture{% endblock %}</title>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div style="display: flex; align-items: center;">
+            <a href="/" class="logo">
+                <i class="ph-fill ph-plant"></i> CropAI
+            </a>
+            <div style="background: rgba(255, 153, 51, 0.15); border: 1px solid rgba(255, 153, 51, 0.5); padding: 4px 12px; border-radius: 20px; color: #FF9933; font-size: 0.75rem; font-weight: 700; margin-left: 15px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; text-transform: uppercase;">
+                <i class="ph-fill ph-rocket"></i> ISRO Hackathon
+            </div>
+        </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link"><i class="ph-duotone ph-house"></i> Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/dashboard" class="nav-link"><i class="ph-duotone ph-chart-line-up"></i> Dashboard</a>
+                    <a href="/history" class="nav-link"><i class="ph-duotone ph-clock-counter-clockwise"></i> History</a>
+                    <a href="/upload" class="btn btn-primary" style="margin-left: 1rem;"><i class="ph-bold ph-plus"></i> New Analysis</a>
+                    <a href="/logout" class="nav-link" style="margin-left: 1rem; color: var(--danger);"><i class="ph-bold ph-sign-out"></i> Logout</a>
+                {% else %}
+                    <a href="/login" class="nav-link"><i class="ph-bold ph-sign-in"></i> Login</a>
+                    <a href="/register" class="btn btn-primary" style="margin-left: 1rem;">Register</a>
+                {% endif %}
+            </nav>
+        <div class="nav-actions">
+            <a href="/upload" class="btn btn-primary">
+                <i class="ph-bold ph-rocket-launch"></i> Get Started
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

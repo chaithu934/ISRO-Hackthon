@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Upload - CropAI{% endblock %}
+
+{% block content %}
+<div style="padding: 4rem 5%; max-width: 800px; margin: 0 auto;">
+    <div class="glass-panel" style="padding: 3rem;">
+        <h2 style="margin-bottom: 1rem; color: var(--text-main); font-size: 2rem;">Analyze New Field Area</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">
+            Upload Sentinel-1 (SAR) and Sentinel-2 (Optical) imagery to automatically detect crop type, evaluate moisture stress, and receive customized irrigation recommendations.
+        </p>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                <i class="ph-duotone ph-cloud-arrow-up upload-icon"></i>
+                <h3 id="upload-title" style="margin-bottom: 0.5rem; color: var(--text-main);">Drag & Drop Data</h3>
+                <p id="upload-text" class="upload-text">Supports Satellite Data (.tif), Images & Videos. Max size: 500MB</p>
+                <input type="file" id="file-input" name="file" style="display: none;" accept=".tif,.tiff,.zip,.png,.jpg,.jpeg,.mp4,.avi" required>
+                <button type="button" class="btn btn-secondary" style="margin-top: 1rem;">Browse Files</button>
+            </div>
+            
+            <div style="margin-top: 1.5rem; text-align: left;">
+                <label style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; display: block;">Calibration: Target Crop (Optional)</label>
+                <select name="expected_crop" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: 'Inter', sans-serif; cursor: pointer; appearance: none;">
+                    <option value="Auto">✨ Auto-Detect (AI)</option>
+                    <option value="Rice">Rice</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Cotton">Cotton</option>
+                    <option value="Maize">Maize</option>
+                    <option value="Sugarcane">Sugarcane</option>
+                    <option value="Groundnut">Groundnut</option>
+                </select>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                    Run Analysis <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('file-input').addEventListener('change', function(e) {
+        var uploadText = document.getElementById('upload-text');
+        var uploadTitle = document.getElementById('upload-title');
+        
+        if (this.files && this.files.length > 0) {
+            var fileName = this.files[0].name;
+            uploadText.innerHTML = '<span class="text-success" style="font-weight: 600;"><i class="ph-bold ph-check-circle"></i> ' + fileName + ' selected</span>';
+            uploadTitle.innerText = 'File Ready for Analysis!';
+        } else {
+            uploadText.innerText = 'Supports Satellite Data (.tif), Images & Videos. Max size: 500MB';
+            uploadTitle.innerText = 'Drag & Drop Data';
+        }
+    });
+</script>
+{% endblock %}

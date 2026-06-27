@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="animate-up">Precision Agriculture through <br><span>Satellite Intelligence</span></h1>
+        <p class="animate-up delay-1">
+            Leverage multi-spectral optical and microwave SAR satellite data to classify crops, detect moisture stress, predict growth stages, and generate precise irrigation advisories.
+        </p>
+        <div class="hero-btns animate-up delay-2">
+            <a href="/upload" class="btn btn-primary">
+                <i class="ph-bold ph-scan"></i> Analyze Field
+            </a>
+            <a href="/dashboard" class="btn btn-secondary">
+                <i class="ph-bold ph-chart-line-up"></i> View Dashboard
+            </a>
+        </div>
+    </div>
+    
+    <!-- Abstract decorative elements -->
+    <div style="position: absolute; top: 10%; left: 5%; width: 300px; height: 300px; background: var(--primary-glow); filter: blur(100px); border-radius: 50%; z-index: 0; pointer-events: none;"></div>
+    <div style="position: absolute; bottom: 10%; right: 5%; width: 400px; height: 400px; background: var(--secondary-glow); filter: blur(120px); border-radius: 50%; z-index: 0; pointer-events: none;"></div>
+</section>
+
+<footer style="text-align: center; padding: 4rem 2rem; margin-top: 4rem; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);">
+    <h3 style="color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.2rem;">Proudly Developed for the ISRO Space Hackathon</h3>
+    <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto; margin-bottom: 2rem;">
+        <i class="ph-fill ph-satellite" style="color: #FF9933; margin-right: 5px;"></i> 
+        Empowering Indian agriculture through advanced Machine Learning and Satellite Earth Observation Data.
+    </p>
+    
+    <div style="display: flex; justify-content: center; gap: 2.5rem; color: var(--text-main); font-weight: 600; flex-wrap: wrap; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; max-width: 600px; margin: 0 auto;">
+        <span><i class="ph-duotone ph-user" style="color: var(--primary); margin-right: 5px;"></i> Abdul Raheem</span>
+        <span><i class="ph-duotone ph-user" style="color: #00ff88; margin-right: 5px;"></i> Dedeepya</span>
+        <span><i class="ph-duotone ph-user" style="color: var(--secondary); margin-right: 5px;"></i> Chaitanya</span>
+    </div>
+</footer>
+{% endblock %}

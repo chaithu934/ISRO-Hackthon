@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CropAI{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Top Stat Cards -->
+    <div class="stat-card glass-panel primary animate-up">
+        <div class="stat-header">
+            <span>Identified Crop</span>
+            <i class="ph-bold ph-plant" style="color: var(--primary); font-size: 1.5rem;"></i>
+        </div>
+        <div class="stat-value">{{ data.crop_name }}</div>
+        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: auto;">Confidence: {{ data.confidence }}%</div>
+    </div>
+
+    <div class="stat-card glass-panel warning animate-up delay-1">
+        <div class="stat-header">
+            <span>Moisture Stress</span>
+            <i class="ph-bold ph-drop" style="color: var(--warning); font-size: 1.5rem;"></i>
+        </div>
+        <div class="stat-value">{{ data.moisture_stress }}</div>
+        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: auto;">NDMI: {{ data.ndmi }}</div>
+    </div>
+
+    <div class="stat-card glass-panel secondary animate-up delay-2">
+        <div class="stat-header">
+            <span>Growth Stage</span>
+            <i class="ph-bold ph-chart-bar" style="color: var(--secondary); font-size: 1.5rem;"></i>
+        </div>
+        <div class="stat-value">{{ data.growth_stage }}</div>
+        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: auto;">Status Validated</div>
+    </div>
+
+    <div class="stat-card glass-panel danger animate-up delay-3">
+        <div class="stat-header">
+            <span>Avg NDVI</span>
+            <i class="ph-bold ph-leaf" style="color: var(--danger); font-size: 1.5rem;"></i>
+        </div>
+        <div class="stat-value">{{ data.ndvi }}</div>
+        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: auto;">Optical Reflectance</div>
+    </div>
+
+    <!-- Main Visualizations Area -->
+    <div class="main-panel glass-panel animate-up delay-2">
+        <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">Satellite & Spectral Analysis</h3>
+        
+        <!-- Map/Graph Area -->
+        {% if data.map_ready %}
+            <iframe src="{{ url_for('static', filename='map.html') }}?v={{ data.timestamp }}" width="100%" height="350px" style="border: 1px solid var(--glass-border); border-radius: 12px;"></iframe>
+        {% else %}
+            <div style="height: 350px; background: rgba(0,0,0,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border);">
+                <div style="text-align: center; color: var(--text-muted);">
+                    <i class="ph-duotone ph-map-trifold" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>Upload data to generate interactive satellite map</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Side Advisory Panel -->
+    <div class="side-panel animate-up delay-3">
+        <div class="info-card glass-panel">
+            <h3><i class="ph-bold ph-lightbulb" style="color: var(--warning); margin-right: 0.5rem;"></i>Irrigation Advisory</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Based on current NDMI ({{ data.ndmi }}) and Growth Stage ({{ data.growth_stage }})</p>
+            
+            <div style="background: rgba(46, 213, 115, 0.1); border-left: 4px solid var(--success); padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                <h4 style="color: var(--success); margin-bottom: 0.25rem;">Recommendation</h4>
+                <p style="font-weight: 600;">{{ data.advisory.action }}</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.9rem;">
+                    <span>Amount:</span>
+                    <span style="font-weight: bold; color: var(--text-main);">{{ data.advisory.amount_mm }} mm</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.9rem;">
+                    <span>Next Cycle:</span>
+                    <span style="font-weight: bold; color: var(--text-main);">{{ data.advisory.next_irrigation }}</span>
+                </div>
+            </div>
+            
+            <a href="/download_report" class="btn btn-primary" style="width: 100%; display: flex; justify-content: center;"><i class="ph-bold ph-file-pdf"></i> Download Report</a>
+        </div>
+
+        <div class="info-card glass-panel">
+            <h3><i class="ph-bold ph-activity" style="color: var(--secondary); margin-right: 0.5rem;"></i>Spectral Indices</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem;">
+                <li style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">NDVI</span>
+                    <span style="font-weight: bold;" class="{% if data.ndvi < 0.4 %}text-danger{% else %}text-success{% endif %}">{{ data.ndvi }}</span>
+                </li>
+                <li style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">NDMI</span>
+                    <span style="font-weight: bold;" class="{% if data.ndmi < 0.3 %}text-warning{% else %}text-success{% endif %}">{{ data.ndmi }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

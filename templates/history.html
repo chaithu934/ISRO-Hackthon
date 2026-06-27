@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}History - CropAI{% endblock %}
+
+{% block content %}
+<div style="padding: 4rem 5%; max-width: 1000px; margin: 0 auto;">
+    <h2 style="margin-bottom: 1rem; color: var(--text-main); font-size: 2rem;">Farm Analysis History</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Review your past satellite AI predictions and irrigation advisories.</p>
+
+    <div class="glass-panel" style="padding: 2rem; overflow-x: auto;">
+        {% if history %}
+        <table style="width: 100%; text-align: left; border-collapse: collapse; color: var(--text-main);">
+            <thead>
+                <tr style="border-bottom: 1px solid var(--glass-border);">
+                    <th style="padding: 1rem; color: var(--text-muted);">Date</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">Crop Type</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">Moisture Stress</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">NDVI</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">Advisory Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 1rem;">{{ item.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td style="padding: 1rem; font-weight: 600; color: var(--primary);">{{ item.crop_name }}</td>
+                    <td style="padding: 1rem;">
+                        {% if item.moisture_stress == 'Severe' %}
+                            <span style="color: var(--danger);"><i class="ph-bold ph-warning"></i> Severe</span>
+                        {% elif item.moisture_stress == 'Moderate' %}
+                            <span style="color: var(--warning);"><i class="ph-bold ph-warning-circle"></i> Moderate</span>
+                        {% else %}
+                            <span style="color: var(--success);"><i class="ph-bold ph-check-circle"></i> Normal</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 1rem;">{{ item.ndvi }}</td>
+                    <td style="padding: 1rem;">{{ item.advisory_action }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="text-align: center; padding: 4rem 0; color: var(--text-muted);">
+            <i class="ph-duotone ph-clock-counter-clockwise" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+            <h3>No History Found</h3>
+            <p>Upload your first satellite image to generate an analysis report.</p>
+            <a href="/upload" class="btn btn-primary" style="margin-top: 1rem; display: inline-block; text-decoration: none;">New Analysis</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

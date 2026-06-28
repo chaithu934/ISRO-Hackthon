@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10.11-slim
+FROM python:3.10-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -20,6 +20,10 @@ COPY . .
 
 # Ensure upload and instance directories exist
 RUN mkdir -p uploads instance dataset
+
+# Hugging Face Spaces runs as a non-root user (1000).
+# We MUST grant full permissions to the /app folder so Flask can save images and create the SQLite database!
+RUN chmod -R 777 /app
 
 # Expose the port Hugging Face Spaces uses (7860)
 EXPOSE 7860
